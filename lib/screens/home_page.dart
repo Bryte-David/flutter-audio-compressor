@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app_test/utilities/helper_functions/get_file_size.dart';
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -19,17 +19,6 @@ class _HomePageState extends State<HomePage> {
   String filePath = '';
   String directoryPath = '';
   String baseName = '';
-
-  getFileSize(String filepath, int decimals) async {
-    var file = File(filepath);
-    int bytes = await file.length();
-    if (bytes <= 0) return "0 B";
-    const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-    var i = (log(bytes) / log(1024)).floor();
-    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) +
-        ' ' +
-        suffixes[i];
-  }
 
   @override
   Widget build(BuildContext context) {
