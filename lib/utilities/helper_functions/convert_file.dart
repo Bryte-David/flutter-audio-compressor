@@ -21,6 +21,8 @@ convertFile(
     await File("$directoryPath/$baseName.mp3").delete();
   }
 
+  print(filePath);
+
   int status = await _flutterFFmpeg
       .execute("-i $filePath -b:a 64k $directoryPath/$baseName.mp3");
   print(status);
@@ -32,15 +34,10 @@ convertFile(
       scaffoldKey: scaffoldKey,
       message: 'File saved to: $directoryPath/$baseName.mp3',
     );
-    // _scaffoldKey.currentState.showSnackBar(SnackBar(
-    //     content: Text(
-    //         'File saved to: $directoryPath/$baseName.mp3')));
   } else {
     showSnacbar(
       scaffoldKey: scaffoldKey,
       message: 'Some error occured.',
     );
-    // _scaffoldKey.currentState.showSnackBar(
-    //     SnackBar(content: Text('Some error occured.')));
   }
 }

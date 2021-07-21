@@ -46,10 +46,11 @@ class _HomePageState extends State<HomePage> {
               FlatButton(
                 color: Colors.blueAccent,
                 onPressed: () => convertFile(
-                    scaffoldKey: _scaffoldKey,
-                    filePath: filePath,
-                    directoryPath: directoryPath,
-                    baseName: baseName),
+                  scaffoldKey: _scaffoldKey,
+                  filePath: filePath,
+                  directoryPath: directoryPath,
+                  baseName: baseName,
+                ),
                 child: Text('Convert'),
               )
             ],

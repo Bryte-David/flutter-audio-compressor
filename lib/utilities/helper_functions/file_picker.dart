@@ -8,12 +8,13 @@ pickFile() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
 
     FilePickerResult result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
+      type: FileType.audio,
       allowedExtensions: ['mp3', 'wav'],
     );
 
     if (result != null) {
       File file = File(result.files.single.path);
+      print('printing from file pickere: '+file.path);
 
       return {
         "filePath": file.path,
