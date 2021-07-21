@@ -1,0 +1,25 @@
+name: flutter_app_test
+description: A new Flutter application.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
+  file_picker: ^2.1.7
+  flutter_ffmpeg: ^0.3.1
+  path_provider: ^1.6.28
+
+flutter:
+  uses-material-design: true
+
