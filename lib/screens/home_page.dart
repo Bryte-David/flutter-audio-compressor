@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app_test/utilities/helper_functions/get_file_size.dart';
+import 'package:flutter_app_test/utilities/helper_functions/snackbar_shower.dart';
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -19,6 +20,27 @@ class _HomePageState extends State<HomePage> {
   String filePath = '';
   String directoryPath = '';
   String baseName = '';
+
+  pickFile() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    directoryPath = appDocDir.path;
+
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['mp3', 'wav'],
+    );
+
+    if (result != null) {
+      File file = File(result.files.single.path);
+
+      setState(() {
+        filePath = file.path;
+        baseName = basename(filePath);
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,27 +61,7 @@ class _HomePageState extends State<HomePage> {
               ),
               FlatButton(
                 color: Colors.blueAccent,
-                onPressed: () async {
-                  Directory appDocDir =
-                      await getApplicationDocumentsDirectory();
-                  directoryPath = appDocDir.path;
-
-                  FilePickerResult result = await FilePicker.platform.pickFiles(
-                    type: FileType.custom,
-                    allowedExtensions: ['mp3', 'wav'],
-                  );
-
-                  if (result != null) {
-                    File file = File(result.files.single.path);
-
-                    setState(() {
-                      filePath = file.path;
-                      baseName = basename(filePath);
-                    });
-                  } else {
-                    // User canceled the picker
-                  }
-                },
+                onPressed: pickFile,
                 child: Text('Select audio'),
               ),
               FlatButton(
@@ -83,12 +85,20 @@ class _HomePageState extends State<HomePage> {
                     print(await getFileSize("$directoryPath/$baseName.mp3", 1));
 
                     if (status == 0) {
-                      _scaffoldKey.currentState.showSnackBar(SnackBar(
-                          content: Text(
-                              'File saved to: $directoryPath/$baseName.mp3')));
+                      showSnacbar(
+                        scaffoldKey: _scaffoldKey,
+                        message: 'File saved to: $directoryPath/$baseName.mp3',
+                      );
+                      // _scaffoldKey.currentState.showSnackBar(SnackBar(
+                      //     content: Text(
+                      //         'File saved to: $directoryPath/$baseName.mp3')));
                     } else {
-                      _scaffoldKey.currentState.showSnackBar(
-                          SnackBar(content: Text('Some error occured.')));
+                      showSnacbar(
+                        scaffoldKey: _scaffoldKey,
+                        message: 'Some error occured.',
+                      );
+                      // _scaffoldKey.currentState.showSnackBar(
+                      //     SnackBar(content: Text('Some error occured.')));
                     }
                   },
                   child: Text('Convert'))
